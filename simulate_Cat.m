@@ -12,7 +12,7 @@ for it = 1:fine-1
     springs(it).y_1 = points_y(it);
     springs(it).y_2 = points_y(it+1);
     springs(it).r = (springs(it).calcLen()+initial_length)/fine;
-    springs(it).k = 1.01;
+    springs(it).k = 20;
 end
 
 final_length1 = 0;
@@ -20,7 +20,7 @@ for it = 1:(fine-1)
     final_length1 = final_length1 + springs(it).calcLen;
 end
 final_length1;
-time = 1000;
+time = 2000;
 
 for it = 1:time
     for p_it = 2:fine-1
@@ -34,7 +34,7 @@ for it = 1:time
         force2_V = [(springs(p_it).x_1-springs(p_it).x_2), (springs(p_it).y_1-springs(p_it).y_2)]/springs(p_it).calcLen*force2_mag;
 %         springs = points_y(3)-.05;
         
-        force_y = (-force2_V(2) + force1_V(2))-.001;
+        force_y = (-force2_V(2) + force1_V(2))-.01; %newtons
         force_x = (-force2_V(1) - force1_V(1));
         
         if (force_y > .01)
@@ -63,18 +63,21 @@ for it = 1:time
    
         
     end
-    
-    plot(points_x, points_y)
-    axis([-1, 1, -2, 1])
-    grid on
-    pause(.00001);
+
+    if mod(it, 64) == 0
+        plot(points_x, points_y)
+        axis([-1, 1, -2, 1])
+        grid on
+        pause(.00001);
+    end
 end
 
 final_length = 0;
 for it = 1:(fine-1)
     final_length = final_length + springs(it).calcLen;
 end
-final_length;
+final_length
 x = points_x;
 y = points_y;
 end
+
